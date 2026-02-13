@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  fake-logger:
+    build: ./logger
+    container_name: fake-logger
+    environment:
+      - LOG_FILE=/logs/app.log
+      - INTERVAL=1
+    volumes:
+      - fake_logs:/logs
+    restart: unless-stopped
+
+volumes:
+  fake_logs:

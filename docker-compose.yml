@@ -5,21 +5,32 @@ services:
     build: ./logger
     container_name: fake-logger
     environment:
-      - LOG_FILE=/logs/app.log # fake-logger kirjoittaa tänne
-      - INTERVAL=10 # 10 sekunnin kirjoitus viive
+      - LOG_FILE=/logs/app.log
+      - INTERVAL=10
     volumes:
-      - fake_logs:/logs # nimetty Docker volume /logs-kansiolle
+      - fake_logs:/logs
     restart: unless-stopped
+
   nxlog:
-    build: ./nxlog      # käytetään omaa buildia
+    build: ./nxlog
     container_name: nxlog
     volumes:
-      - fake_logs:/logs:ro  # read-only luku fake-loggerin tuotannosta
-      - ./nxlog/nxlog.conf:/etc/nxlog/nxlog.conf:ro # NXLog konffit read-only
-      - nxlog_out:/nxlog/out # NXLogin keräämät logit talteen tähän volumeen
+      - fake_logs:/logs:ro
+      - ./nxlog/nxlog.conf:/etc/nxlog/nxlog.conf:ro
     depends_on:
+      - log-target
       - fake-logger
+    restart: unless-stopped
+
+  log-target:
+    build: ./log-target
+    container_name: log-target
+    ports:
+    - "5140:5140"
+    volumes:
+      - log_target:/logs
+    restart: unless-stopped
 
 volumes:
-  fake_logs: # tallentaa fake-loggerin logit pysyvästi
-  nxlog_out: # tallentaa NXLogin keräämät logit pysyvästi
+  fake_logs:
+  log_target:

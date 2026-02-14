@@ -36,5 +36,15 @@ It produces a stream of generated log data into: /logs/app.log (volumes fake_log
 
 
 
+docker network ls
+docker network inspect loggersystem_default
+
+docker network disconnect loggersystem_default log-target
+
+docker network connect loggersystem_default log-target
+
+
+docker exec -it log-target tail -f /logs/received.log
+
 
 

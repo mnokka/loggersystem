@@ -10,6 +10,16 @@ services:
     volumes:
       - fake_logs:/logs
     restart: unless-stopped
+  nxlog:
+    build: ./nxlog      # käytetään omaa buildia
+    container_name: nxlog
+    volumes:
+      - fake_logs:/logs:ro
+      - ./nxlog/nxlog.conf:/etc/nxlog/nxlog.conf:ro
+      - nxlog_out:/nxlog/out
+    depends_on:
+      - fake-logger
 
 volumes:
   fake_logs:
+  nxlog_out:

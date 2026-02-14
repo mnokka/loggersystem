@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOG_FILE=${LOG_FILE:-/logs/app.log}
-INTERVAL=${INTERVAL:-1}
+INTERVAL=${INTERVAL:-5}
 
 mkdir -p "$(dirname "$LOG_FILE")"
 

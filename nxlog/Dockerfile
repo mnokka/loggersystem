@@ -30,6 +30,9 @@ RUN yum clean all && \
 rm -rf /var/cache/yum && \
 rm -f /opt/nxlog-*.rpm
 
+RUN mkdir -p /nxlog/out && chown -R nxlog:nxlog /nxlog/out
+
+
 # Start nxlog
 USER nxlog
 ENTRYPOINT [ "/usr/bin/nxlog", "-f" ]

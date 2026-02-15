@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Log Viewer</title>
+  <style>
+    body { font-family: monospace; background: #111; color: #eee; }
+    pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+<h2>Live logs from NXLog</h2>
+<pre id="log"></pre>
+
+<script>
+async function refresh() {
+  const r = await fetch("/logs");
+  document.getElementById("log").textContent = await r.text();
+}
+setInterval(refresh, 3000);
+refresh();
+</script>
+</body>
+</html>

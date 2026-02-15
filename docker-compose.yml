@@ -27,6 +27,7 @@ services:
     container_name: log-target
     ports:
     - "5140:5140"
+    - "7777:7777"
     volumes:
       - log_target:/logs
     restart: unless-stopped

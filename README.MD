@@ -29,6 +29,12 @@ Log producer (fake application) ---via file---> NXLog ---via network--> Logs obs
 
 ### **Log files , usage commands**
 
+**WEBUI: http://localhost:7777**
+
+![Live log viewer](log-target/livelogs.png)
+
+
+
 **NXLog collected log files:** 
 `tail -f /var/lib/docker/volumes/loggersystem_nxlog_out/_data/collected.log` 
 

@@ -2,6 +2,7 @@ FROM rockylinux/rockylinux:9
 MAINTAINER NXLog Ltd <operations@nxlog.org>
 
 ENV NXLOG_VERSION=3.2.2329_rhel9.x86_64.rpm
+ENV NXLOG_MODULES_VERSION=3.2.2329_rhel9.x86_64.rpm
 
 LABEL name="nxlog-ce" \
       maintainer="operations@nxlog.org" \
@@ -18,6 +19,7 @@ WORKDIR /opt
 
 # Add nxlog package
 ADD nxlog-ce-*.rpm /opt/
+#ADD nxlog-modules-*.rpm /opt/
 
 # system update
 RUN yum update -y && yum install -y epel-release

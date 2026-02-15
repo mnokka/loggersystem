@@ -2,49 +2,63 @@
 
 ## Overview
 
-This POC demonstrates how **NXLog handles log forwarding during network interruptions**.
+This POC demonstrates how **NXLog handles log forwarding during network interruptions / log censoring**.
 
 The environment is fully simulated using Docker and consists of:
 
-- **Log Producer** – generates log file entries (Fake Logger)
-- **Logger (NXLog)** – reads and forwards logs
-- **Log Target System** – receives forwarded logs
+- **Fake Log Producer (logger)** – generates (simulated)log file entries to /logs/app.log, shared as volumes
+- **Logger (nxlog)** – reads and forwards logs (by log producer), does needed (configured) log censoring
+- **Store Log Target System (log-target)** – receives network forwarded (and censored) logs for observing 
 
-The goal is to test reliability and behavior when the network connection between components is disrupted.
+The goal is to test reliability and behavior when the network connection between components is disrupted. And if log files can be censored before sending to observer/control center
+
+
+Log producer (fake application) ---via file---> NXLog ---via network--> Logs observing system
 
 ---
 
-## Fake Logger
-
-The **fake logger** simulates an application that continuously writes log entries to a file.
-
-It produces a stream of generated log data into: /logs/app.log (volumes fake_logs )
-
+## System commands
 
 **Build:** `docker-compose build`
 
-**Run:** `docker-compose up `     -d to detach
+**Run:** `docker-compose up `   
 
-**Stop:** `docker-compose down`
+**Stop:** `docker-compose down -v`
 
-**Logs:**  `docker-compose logs -f`
+---
 
-**NXLog Collected logs files:** 
+### **Log files , usage commands**
 
+**NXLog collected log files:** 
 `tail -f /var/lib/docker/volumes/loggersystem_nxlog_out/_data/collected.log` 
+
+or
+
 `docker-compose exec nxlog tail -f /nxlog/out/collected.log`
 
+**Docker Network info:**
+
+`docker network ls`
+
+`docker network inspect loggersystem_default`
 
 
-docker network ls
-docker network inspect loggersystem_default
+**Disconnect network from NXLog to logger system:**
 
-docker network disconnect loggersystem_default log-target
+`docker network disconnect loggersystem_default log-target`
 
-docker network connect loggersystem_default log-target
+**Reactivate network**
+
+`docker network connect loggersystem_default log-target`
 
 
-docker exec -it log-target tail -f /logs/received.log
+**Observe missing logs (due breakage time) to appear into received log:**
+
+`docker exec -it log-target tail -f /logs/received.log`
+
+Observe also ERROR log type has been censored properly!
+
+
 
 
 

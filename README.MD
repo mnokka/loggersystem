@@ -59,6 +59,27 @@ or
 Observe also ERROR log type has been censored properly!
 
 
+## Example logs
+
+**Generated log example:**
+
+```
+nxlog        | 2026-02-15 09:48:39 WARNING om_tcp received data from remote end (got 53 bytes)
+nxlog        | 2026-02-15 09:48:39 WARNING om_tcp received data from remote end (got 53 bytes)
+fake-logger  | 2026-02-15 09:48:49 [DEBUG] Test message number 23347
+nxlog        | 2026-02-15 09:48:49 WARNING om_tcp received data from remote end (got 54 bytes)
+nxlog        | 2026-02-15 09:48:49 WARNING om_tcp received data from remote end (got 54 bytes)
+fake-logger  | 2026-02-15 09:48:59 [ERROR] Test message number 17173
+```
 
 
+**Received censored log example:**
 
+```
+2026-02-15 09:48:39 [WARN] Test message number 28657
+2026-02-15 09:48:49 [DEBUG] Test message number 23347
+[SENSUROITU] Number:17173
+2026-02-15 09:49:09 [INFO] Test message number 31698
+2026-02-15 09:49:19 [INFO] Test message number 31392
+2026-02-15 09:49:29 [DEBUG] Test message number 5527
+```
